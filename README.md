@@ -184,17 +184,38 @@ Once installed via `claude mcp add`, just ask Claude to browse:
 
 ---
 
-## Build Commands
+## Developer Setup
+
+**Prerequisites:**
+- Go 1.21+
+- Node.js 18+
+
+**Clone and build:**
+```bash
+git clone https://github.com/VibiumDev/vibium.git
+cd vibium
+npm install
+make build
+```
+
+**Install Chrome for Testing:**
+```bash
+./clicker/bin/clicker install
+```
+
+**Available make targets:**
+```bash
+make help        # Show all targets
+make build       # Build clicker binary
+make clean       # Clean clicker binaries
+make clean-cache # Clean cached Chrome for Testing
+make clean-all   # Clean everything for fresh install testing
+```
+
+**Shell completion (optional):**
 
 ```bash
-# Development build
-cd clicker && go build -o bin/clicker ./cmd/clicker
-
-# Cross-compile all platforms
-./scripts/build-clicker.sh
-
-# Single platform
-GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o bin/clicker-linux-amd64 ./cmd/clicker
+./clicker/bin/clicker completion --help
 ```
 
 ---

@@ -1,4 +1,4 @@
-.PHONY: build clean clean-bin clean-cache clean-all
+.PHONY: build clean clean-bin clean-cache clean-all help
 
 # Build clicker binary
 build:
@@ -18,3 +18,12 @@ clean-all: clean-bin clean-cache
 
 # Alias for clean-bin
 clean: clean-bin
+
+# Show available targets
+help:
+	@echo "Available targets:"
+	@echo "  make build       - Build clicker binary"
+	@echo "  make clean       - Clean clicker binaries"
+	@echo "  make clean-cache - Clean cached Chrome for Testing"
+	@echo "  make clean-all   - Clean binaries and cache"
+	@echo "  make help        - Show this help"
