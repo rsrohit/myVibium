@@ -54,7 +54,7 @@ describe('CLI: Process Cleanup', () => {
   test('navigate command cleans up Chrome on completion', async () => {
     const pidsBefore = getClickerChromePids();
 
-    execSync(`${CLICKER} navigate https://example.com`, {
+    execSync(`${CLICKER} navigate https://the-internet.herokuapp.com`, {
       encoding: 'utf-8',
       timeout: 30000,
     });

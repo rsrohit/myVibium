@@ -5,7 +5,6 @@
 
 const { test, describe } = require('node:test');
 const assert = require('node:assert');
-const fs = require('node:fs');
 
 // Import from built library
 const { browserSync } = require('../../clients/javascript/dist');
@@ -65,6 +64,32 @@ describe('JS Sync API', () => {
       assert.ok(heading, 'Should return an ElementSync');
       assert.ok(heading.info, 'Element should have info');
       assert.match(heading.info.tag, /^h1$/i, 'Should be an h1 tag');
+    } finally {
+      vibe.quit();
+    }
+  });
+
+  test('element.getAttribute() returns attribute value (sync)', () => {
+    const vibe = browserSync.launch({ headless: true });
+    try {
+      vibe.go('https://the-internet.herokuapp.com/');
+      const link = vibe.find('a[href="/add_remove_elements/"]');
+      const href = link.getAttribute('href');
+      assert.strictEqual(href, '/add_remove_elements/', 'Should return href attribute');
+    } finally {
+      vibe.quit();
+    }
+  });
+
+  test('element.boundingBox() returns box dimensions (sync)', () => {
+    const vibe = browserSync.launch({ headless: true });
+    try {
+      vibe.go('https://the-internet.herokuapp.com/');
+      const heading = vibe.find('h1.heading');
+      const box = heading.boundingBox();
+      assert.ok(box, 'Should return a bounding box');
+      assert.ok(box.width > 0, 'Box should have width');
+      assert.ok(box.height > 0, 'Box should have height');
     } finally {
       vibe.quit();
     }

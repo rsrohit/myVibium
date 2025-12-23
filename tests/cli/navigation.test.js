@@ -13,17 +13,17 @@ const CLICKER = path.join(__dirname, '../../clicker/bin/clicker');
 
 describe('CLI: Navigation', () => {
   test('navigate command loads page and prints title', () => {
-    const result = execSync(`${CLICKER} navigate https://example.com`, {
+    const result = execSync(`${CLICKER} navigate https://the-internet.herokuapp.com`, {
       encoding: 'utf-8',
       timeout: 30000,
     });
-    assert.match(result, /example/i, 'Should show example.com content');
+    assert.match(result, /the-internet/i, 'Should show the-internet.herokuapp.com content');
   });
 
   test('screenshot command creates valid PNG', () => {
     const outFile = `/tmp/vibium-test-${Date.now()}.png`;
     try {
-      execSync(`${CLICKER} screenshot https://example.com -o ${outFile}`, {
+      execSync(`${CLICKER} screenshot https://the-internet.herokuapp.com -o ${outFile}`, {
         encoding: 'utf-8',
         timeout: 30000,
       });
@@ -47,10 +47,13 @@ describe('CLI: Navigation', () => {
   });
 
   test('eval command executes JavaScript', () => {
-    const result = execSync(`${CLICKER} eval https://example.com "document.title"`, {
-      encoding: 'utf-8',
-      timeout: 30000,
-    });
-    assert.match(result, /Example Domain/i, 'Should return page title');
+    const result = execSync(
+      `${CLICKER} eval https://the-internet.herokuapp.com "document.title"`,
+      {
+        encoding: 'utf-8',
+        timeout: 30000,
+      }
+    );
+    assert.match(result, /The Internet/i, 'Should return page title');
   });
 });
