@@ -104,32 +104,16 @@ vibe.quit();
 
 ---
 
-## For Agents
-
-One command to add browser control to Claude Code:
-
-```bash
-claude mcp add vibium -- npx -y vibium
-```
-
-That's it. No `npm install` needed. The first run downloads everything automatically.
-
-| Tool | Description |
-|------|-------------|
-| `browser_launch` | Start browser (headless by default) |
-| `browser_navigate` | Go to URL |
-| `browser_find` | Find element by CSS selector |
-| `browser_click` | Click an element |
-| `browser_type` | Type text into an element |
-| `browser_screenshot` | Capture viewport (base64 or save to file with `--screenshot-dir`) |
-| `browser_quit` | Close browser |
-
----
-
-## For Humans
+## Installation
 
 ```bash
 npm install vibium
+```
+
+Or with pnpm:
+
+```bash
+pnpm add vibium
 ```
 
 This automatically:
@@ -162,22 +146,58 @@ VIBIUM_SKIP_BROWSER_DOWNLOAD=1 npm install vibium
 
 ## Quick Start
 
-**As a library:**
+**Async (Promise-based):**
 ```typescript
 import { browser } from "vibium";
 
-const vibe = await browser.launch();
+const vibe = await browser.launch({ headless: true });
 await vibe.go("https://example.com");
 const el = await vibe.find("a");
 await el.click();
 await vibe.quit();
 ```
 
-**With Claude Code:**
+**Sync (blocking):**
+```typescript
+import { browserSync } from "vibium";
 
-Once installed via `claude mcp add`, just ask Claude to browse:
+const vibe = browserSync.launch({ headless: true });
+vibe.go("https://example.com");
+const el = vibe.find("a");
+el.click();
+vibe.quit();
+```
+
+---
+
+## MCP Setup
+
+Use Vibium as an MCP server (e.g., with Claude Code) without installing anything globally. The `npx` entry point starts the MCP server over stdio:
+
+```bash
+claude mcp add vibium -- npx -y vibium
+```
+
+Once added, ask Claude to browse:
 
 > "Go to example.com and click the first link"
+
+---
+
+## API Overview
+
+**Async API**
+- `browser.launch(options?)` → `Promise<Vibe>`
+- `Vibe`: `go(url)`, `find(selector)`, `screenshot()`, `quit()`
+- `Element`: `click()`, `type(text)`, `text()`, `getAttribute(name)`, `boundingBox()`
+
+**Sync API**
+- `browserSync.launch(options?)` → `VibeSync`
+- `VibeSync`: `go(url)`, `find(selector)`, `screenshot()`, `quit()`
+- `ElementSync`: `click()`, `type(text)`, `text()`, `getAttribute(name)`, `boundingBox()`
+
+**Errors**
+- `ConnectionError`, `TimeoutError`, `ElementNotFoundError`, `BrowserCrashedError`
 
 ---
 
